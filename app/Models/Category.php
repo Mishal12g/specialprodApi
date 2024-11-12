@@ -10,4 +10,6 @@ class Category extends Model
     use HasApiTokens; 
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
+
+    protected $fillable = ['name'];
 }
