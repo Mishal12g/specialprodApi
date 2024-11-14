@@ -14,7 +14,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return CustomerResource::collection(Customer::all());
+        //
     }
 
     /**
@@ -28,9 +28,10 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        return new CustomerResource(Customer::findOrFail($id));
+        $customer = $request->user(); 
+        return new CustomerResource($customer);
     }
 
     /**

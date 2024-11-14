@@ -46,7 +46,7 @@ class AuthCustomerController extends Controller
 
         $token = $customer->createToken('mobile-app')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
+        return response()->json(['token' => $token, 'customer' => $customer,], 200);
     }
 
     public function logout(Request $request)

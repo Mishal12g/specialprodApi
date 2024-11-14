@@ -16,9 +16,8 @@ class CustomerResource extends JsonResource
     {
         return [
             'id'=> $this-> id,
-            'first_name'=> $this-> first_name,
-            'last_name'=> $this-> last_name,
-            'number'=> $this-> number,
+            'name'=> $this-> name,
+            'phone'=> $this-> phone,
             'created_at'=> $this-> created_at,
             'orders'=>  OrdersListResource::collection($this->orders),
         ];

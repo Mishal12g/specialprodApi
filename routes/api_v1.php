@@ -10,14 +10,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthCustomerController::class, 'register']);
 Route::post('/login', [AuthCustomerController::class, 'login']);
 Route::post('/logout', [AuthCustomerController::class, 'logout'])->middleware('auth:sanctum');
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
+Route::get('/customer', [CustomerController::class, 'show'])
+    ->middleware('auth:sanctum');
 
 Route::apiResources([
 '/categories'=>CategoryController::class,
 '/orders'=>OrderController::class,
-'/customers'=>CustomerController::class,
 ]);
