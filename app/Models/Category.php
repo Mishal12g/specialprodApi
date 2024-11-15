@@ -12,4 +12,9 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    public function executors()
+    {
+        return $this->belongsToMany(Executor::class, 'category_executors');
+    }
 }
