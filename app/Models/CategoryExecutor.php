@@ -4,14 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\CategoryExecutorResource;
+use App\Http\Resources\CategoryResource;
 
 class CategoryExecutor extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoryExecutorFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'executor_id',
-        'category_id',
-    ];
+      /**
+     * Связь с моделью Executor.
+     */
+    public function executor()
+    {
+        return $this->belongsTo(Executor::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

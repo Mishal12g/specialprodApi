@@ -14,7 +14,7 @@ class CategoryExecutorController extends Controller
      */
     public function index()
     {
-        return CategoryExecutorResource::collection(CategoryExecutor::all());
+        return CategoryExecutorResource::collection(CategoryExecutor::with('executor', 'category')->get());
     }
 
     /**
