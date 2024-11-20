@@ -26,8 +26,10 @@ Route::get('/executor', [ExecutorController::class, 'show'])
 
 Route::get('/executors/search', [ExecutorController::class, 'searchByCityAndCategory']);
 
-Route::apiResources([
-'/categories'=>CategoryController::class,
-'/orders'=>OrderController::class,
-'/category_executor'=>CategoryExecutorController::class,
-]);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResources([
+        '/categories' => CategoryController::class,
+        '/orders' => OrderController::class,
+        '/category_executor' => CategoryExecutorController::class,
+    ]);
+});

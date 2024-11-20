@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('category_executors', function (Blueprint $table) {
             $table->id();
             $table->integer('price');
+            $table->integer('min_order');
             $table->string('image')->nullable();
             $table->foreignId('executor_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
