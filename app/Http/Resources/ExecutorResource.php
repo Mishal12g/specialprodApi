@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\CategoryExecutorResource;
+use App\Http\Resources\TransportExecutorResource;
 
 class ExecutorResource extends JsonResource
 {
@@ -19,8 +19,10 @@ class ExecutorResource extends JsonResource
             'id'=> $this-> id,
             'name'=> $this-> name,
             'phone'=> $this-> phone,
+            'address'=> $this-> address,
             'created_at'=> $this-> created_at,
-            'categories'=>CategoryExecutorResource::collection($this->categories),
+            'categories' => TransportExecutorResource::collection($this->categoryLinks),
+
         ];
     }
 }

@@ -13,11 +13,16 @@ class Executor extends Model
     use HasApiTokens;
 
     protected $fillable = [
-        'name', 'phone', 'password',
+        'name', 'phone', 'password', 'address',
     ];
     
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_executors');
+    }
+
+    public function categoryLinks()
+    {
+        return $this->hasMany(CategoryExecutor::class, 'executor_id');
     }
 }

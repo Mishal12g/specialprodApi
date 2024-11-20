@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryExecutorResource extends JsonResource
+class TransportExecutorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,8 @@ class CategoryExecutorResource extends JsonResource
     {
         return [
             'id'=> $this-> id,
-            'created_at'=> $this-> created_at,
-            'executor' => new ExecutorInCategoryResource($this->executor), 
-            'category' => new CategoryResource($this->category),
+            'price'=> $this-> price,
+            'name' => $this->category->name,  
         ];
     }
 }

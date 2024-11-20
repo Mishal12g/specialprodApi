@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('category_executors', function (Blueprint $table) {
             $table->id();
+            $table->integer('price');
+            $table->string('image')->nullable();
             $table->foreignId('executor_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 

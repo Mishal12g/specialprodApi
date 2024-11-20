@@ -23,8 +23,8 @@ class CategoryExecutorController extends Controller
     public function store(Request $request)
     {
         $created_category_executor = CategoryExecutor::create($request->all());
-
-        return $created_category_executor;
+    
+        return new CategoryExecutorResource($created_category_executor);
     }
 
     /**

@@ -19,8 +19,12 @@ Route::get('/customer', [CustomerController::class, 'show'])
 Route::post('/executor/register', [AuthExecutorController::class, 'register']);
 Route::post('/executor/login', [AuthExecutorController::class, 'login']);
 Route::post('/executor/logout', [AuthExecutorController::class, 'logout'])->middleware('auth:sanctum');
+Route::put('/executor/address', [ExecutorController::class, 'updateAddress'])->middleware('auth:sanctum');
 Route::get('/executor', [ExecutorController::class, 'show'])
     ->middleware('auth:sanctum');
+
+
+Route::get('/executors/search', [ExecutorController::class, 'searchByCityAndCategory']);
 
 Route::apiResources([
 '/categories'=>CategoryController::class,

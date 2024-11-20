@@ -15,6 +15,16 @@ class CategoryExecutor extends Model
       /**
      * Связь с моделью Executor.
      */
+    protected $table = 'category_executors';
+
+    protected $fillable = [
+        'executor_id',
+        'category_id',
+        'price',
+        'name',
+        'image',
+    ];
+
     public function executor()
     {
         return $this->belongsTo(Executor::class);
