@@ -17,6 +17,7 @@ class CategoryExecutorResource extends JsonResource
         return [
             'id'=> $this-> id,
             'created_at'=> $this-> created_at,
+            'address'=> $this-> address,
             'executor' => new ExecutorInCategoryResource($this->executor), 
             'category' => new CategoryResource($this->category),
         ];

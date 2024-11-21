@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('min_order');
             $table->string('image')->nullable();
+            $table->string('address')->nullable();
             $table->foreignId('executor_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

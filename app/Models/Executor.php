@@ -13,7 +13,7 @@ class Executor extends Model
     use HasApiTokens;
 
     protected $fillable = [
-        'name', 'phone', 'password', 'address',
+        'name', 'phone', 'password',
     ];
     
     public function categories()

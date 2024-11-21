@@ -19,7 +19,6 @@ class ExecutorResource extends JsonResource
             'id'=> $this-> id,
             'name'=> $this-> name,
             'phone'=> $this-> phone,
-            'address'=> $this-> address,
             'created_at'=> $this-> created_at,
             'categories' => TransportExecutorResource::collection($this->categoryLinks),
 

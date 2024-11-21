@@ -39,35 +39,6 @@ class ExecutorController extends Controller
             'data' => $executorsWithCategory, // Список исполнителей с их категориями
         ]);
     }
-    public function updateAddress(Request $request)
-    {
-       // Валидация входных данных
-    $validated = $request->validate([
-        'address' => 'required|string|max:255', // Пожалуйста, настроите валидацию в соответствии с вашими требованиями
-    ]);
-
-    // Получаем текущего аутентифицированного исполнителя
-    $executor = $request->user(); // Получаем исполнителя через токен (если он залогинен через Sanctum)
-
-    // Проверяем, существует ли исполнитель
-    if (!$executor) {
-        return response()->json([
-            'error' => 'Executor not found',
-        ], 404);
-    }
-
-    // Обновляем только адрес
-    $executor->update([
-        'address' => $validated['address'],
-    ]);
-
-    // Возвращаем успешный ответ с обновлёнными данными исполнителя
-    return response()->json([
-        'message' => 'Address updated successfully',
-        'executor' => $executor, // Возвращаем обновлённого исполнителя
-    ]);
-    }
-
 
     /**
      * Display a listing of the resource.

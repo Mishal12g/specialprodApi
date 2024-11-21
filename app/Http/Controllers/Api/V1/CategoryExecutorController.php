@@ -9,6 +9,35 @@ use App\Models\CategoryExecutor;
 
 class CategoryExecutorController extends Controller
 {
+
+    public function updateAddress(Request $request, $id)
+    {
+        // Валидация входных данных
+        $validated = $request->validate([
+            'address' => 'required|string|max:255', // Настройте валидацию в соответствии с вашими требованиями
+        ]);
+    
+        // Находим запись CategoryExecutor по ID
+        $categoryExecutor = CategoryExecutor::find($id);
+    
+        // Проверяем, существует ли запись
+        if (!$categoryExecutor) {
+            return response()->json([
+                'message' => 'Category Executor not found',
+            ], 404);
+        }
+    
+        // Обновляем только адрес
+        $categoryExecutor->update([
+            'address' => $validated['address'],
+        ]);
+    
+        // Возвращаем успешный ответ с обновлёнными данными исполнителя
+        return response()->json([
+            'message' => 'Address updated successfully',
+            'category_executor' => $categoryExecutor, // Возвращаем обновлённого исполнителя
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */

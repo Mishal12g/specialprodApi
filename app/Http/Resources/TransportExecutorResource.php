@@ -17,6 +17,7 @@ class TransportExecutorResource extends JsonResource
         return [
             'id'=> $this-> id,
             'price'=> $this-> price,
+            'address'=> $this-> address,
             'min_order'=> $this-> min_order,
             'name' => $this->category->name,  
         ];
