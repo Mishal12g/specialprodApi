@@ -22,6 +22,8 @@ class CategoryExecutor extends Model
         'category_id',
         'price',
         'address',
+        'latitude',
+        'longitude',
         'min_order',
         'name',
         'image',
