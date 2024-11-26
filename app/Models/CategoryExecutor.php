@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Resources\CategoryExecutorResource;
+use App\Http\Resources\TransportExecutorResource;
 use App\Http\Resources\CategoryResource;
 
 class CategoryExecutor extends Model

@@ -23,6 +23,7 @@ Route::get('/executor', [ExecutorController::class, 'show'])
 ->middleware('auth:sanctum');
 
 Route::put('/category_executor/address', [CategoryExecutorController::class, 'updateAddress'])->middleware('auth:sanctum');
+Route::post('/transport/search', [CategoryExecutorController::class, 'searchTransport']);
 
 Route::get('/executors/search', [ExecutorController::class, 'searchByCityAndCategory']);
 
