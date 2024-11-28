@@ -4,22 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Resources\TransportExecutorResource;
+use App\Http\Resources\TransportResource;
 use App\Http\Resources\CategoryResource;
 
-class CategoryExecutor extends Model
+class Transport extends Model
 {
-    /** @use HasFactory<\Database\Factories\CategoryExecutorFactory> */
+    /** @use HasFactory<\Database\Factories\TransportFactory> */
     use HasFactory;
 
       /**
      * Связь с моделью Executor.
      */
-    protected $table = 'category_executors';
+    protected $table = 'transports';
 
     protected $fillable = [
-        'executor_id',
         'category_id',
+        'user_id',
         'price',
         'address',
         'latitude',
@@ -29,9 +29,9 @@ class CategoryExecutor extends Model
         'image',
     ];
 
-    public function executor()
+    public function user()
     {
-        return $this->belongsTo(Executor::class);
+        return $this->belongsTo(User::class);
     }
 
     public function category()

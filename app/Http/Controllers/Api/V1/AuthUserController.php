@@ -4,27 +4,27 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Executor;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class AuthExecutorController extends Controller
+class AuthUserController extends Controller
 {
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|phone|max:255|unique:executors',
+            'phone' => 'required|phone|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
-        $executor = Executor::create([
+        $user = User::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $executor->createToken('Executor_token')->plainTextToken;
+        $token = $user->createToken('mobile-app')->plainTextToken;
 
         return response()->json(['token' => $token], 201);
     }
@@ -36,17 +36,17 @@ class AuthExecutorController extends Controller
             'password' => 'required|string',
         ]);
 
-        $executor = Executor::where('phone', $request->phone)->first();
+        $user = User::where('phone', $request->phone)->first();
 
-        if (!$executor || !Hash::check($request->password, $executor->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'phone' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        $token = $executor->createToken('Executor_token')->plainTextToken;
+        $token = $user->createToken('mobile-app')->plainTextToken;
 
-        return response()->json(['token' => $token, 'executor' => $executor,], 200);
+        return response()->json(['token' => $token, 'user' => $user,], 200);
     }
 
     public function logout(Request $request)

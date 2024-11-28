@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TransportExecutorResource;
+use App\Http\Resources\TransportResource;
 use Illuminate\Http\Request;
-use App\Models\CategoryExecutor;
+use App\Models\Transport;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
-class CategoryExecutorController extends Controller
+class TransportController extends Controller
 {
 
     public function updateAddress(Request $request, $id)
@@ -19,25 +19,25 @@ class CategoryExecutorController extends Controller
             'address' => 'required|string|max:255', // Настройте валидацию в соответствии с вашими требованиями
         ]);
     
-        // Находим запись CategoryExecutor по ID
-        $categoryExecutor = CategoryExecutor::find($id);
+        // Находим запись Transport по ID
+        $transport = Transport::find($id);
     
         // Проверяем, существует ли запись
-        if (!$categoryExecutor) {
+        if (!$transport) {
             return response()->json([
                 'message' => 'Category Executor not found',
             ], 404);
         }
     
         // Обновляем только адрес
-        $categoryExecutor->update([
+        $transport->update([
             'address' => $validated['address'],
         ]);
     
         // Возвращаем успешный ответ с обновлёнными данными исполнителя
         return response()->json([
             'message' => 'Address updated successfully',
-            'category_executor' => $categoryExecutor, // Возвращаем обновлённого исполнителя
+            'transport' => $transport, // Возвращаем обновлённого исполнителя
         ]);
     }
 
@@ -47,32 +47,25 @@ class CategoryExecutorController extends Controller
         $longitude = $request->input('longitude');
         $radius = (float) $request->input('radius');
         $category = $request->input('category_id');
+        $currentUserId = $request->input('user_id'); // Текущий пользователь передается как параметр
     
-        $url = 'https://geocode-maps.yandex.ru/1.x/';
-    
-        $response = Http::get($url, [
-            'apikey' => env('YANDEX_API_KEY'), 
-            'geocode' => "{$longitude},{$latitude}", 
-            'format' => 'json',
-        ]);
-    
-        if ($response->failed()) {
-            return response()->json(['error' => 'Не удалось получить данные по координатам'], 500);
+        if (!$currentUserId) {
+            return response()->json(['error' => 'Не указан идентификатор пользователя'], 400);
         }
     
-        $data = $response->json();
-    
-        if (empty($data['response']['GeoObjectCollection']['featureMember'])) {
-            return response()->json(['error' => 'Не найдено соответствие для указанных координат'], 404);
-        }
-    
-        $transportsQuery = CategoryExecutor::selectRaw(
+        $transportsQuery = Transport::selectRaw(
             "*, ( 6371 * acos( cos( radians(?) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(?) ) + sin( radians(?) ) * sin( radians(latitude) ) ) ) AS distance",
             [$latitude, $longitude, $latitude]
         )
         ->havingRaw('distance < ?', [$radius])
         ->orderBy('distance');
     
+        // Исключаем транспорт текущего пользователя
+        $transportsQuery->whereHas('user', function ($query) use ($currentUserId) {
+            $query->where('id', '!=', $currentUserId);
+        });
+    
+        // Фильтруем по категории, если указана
         if ($category) {
             $transportsQuery->where('category_id', $category);
         }
@@ -83,16 +76,15 @@ class CategoryExecutorController extends Controller
             return response()->json(['error' => 'На данный момент поблизости не найдено специализированной техники.'], 404);
         }
     
-        return response()->json(TransportExecutorResource::collection($transports));
+        return response()->json(TransportResource::collection($transports));
     }
-    
     
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return TransportExecutorResource::collection(CategoryExecutor::with('executor', 'category')->get());
+        return TransportResource::collection(Transport::with('executor', 'category')->get());
     }
 
     /**
@@ -100,9 +92,9 @@ class CategoryExecutorController extends Controller
      */
     public function store(Request $request)
     {
-        $created_category_executor = CategoryExecutor::create($request->all());
+        $created_transport = Transport::create($request->all());
     
-        return new TransportExecutorResource($created_category_executor);
+        return new TransportResource($created_transport);
     }
 
     /**
@@ -124,8 +116,8 @@ class CategoryExecutorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CategoryExecutor $category_executor)
+    public function destroy(Transport $transport)
     {
-        $category_executor->delete();
+        $transport->delete();
     }
 }

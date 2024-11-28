@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CustomerResource;
-use App\Models\Customer;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,8 +30,8 @@ class CustomerController extends Controller
      */
     public function show(Request $request)
     {
-        $customer = $request->user(); 
-        return new CustomerResource($customer);
+        $user = $request->user(); 
+        return new UserResource($user);
     }
 
     /**

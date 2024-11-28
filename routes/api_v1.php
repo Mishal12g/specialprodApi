@@ -1,36 +1,38 @@
 <?php
 
 use App\Http\Controllers\Api\V1\CategoryController;
-use App\Http\Controllers\Api\V1\CustomerController;
+use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\OrderController;
-use App\Http\Controllers\Api\V1\ExecutorController;
-use App\Http\Controllers\Api\V1\AuthCustomerController;
+use App\Http\Controllers\Api\V1\AuthUserController;
 use App\Http\Controllers\Api\V1\AuthExecutorController;
-use App\Http\Controllers\Api\V1\CategoryExecutorController;
+use App\Http\Controllers\Api\V1\TransportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/customer/register', [AuthCustomerController::class, 'register']);
-Route::post('/customer/login', [AuthCustomerController::class, 'login']);
-Route::post('/customer/logout', [AuthCustomerController::class, 'logout'])->middleware('auth:sanctum');
-Route::get('/customer', [CustomerController::class, 'show'])
+Route::post('/user/register', [AuthUserController::class, 'register']);
+Route::post('/user/login', [AuthUserController::class, 'login']);
+Route::post('/user/logout', [AuthUserController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('/user', [UserController::class, 'show'])
     ->middleware('auth:sanctum');
 
-Route::post('/executor/register', [AuthExecutorController::class, 'register']);
-Route::post('/executor/login', [AuthExecutorController::class, 'login']);
-Route::post('/executor/logout', [AuthExecutorController::class, 'logout'])->middleware('auth:sanctum');
-Route::get('/executor', [ExecutorController::class, 'show'])
-->middleware('auth:sanctum');
+// Route::post('/executor/register', [AuthExecutorController::class, 'register']);
+// Route::post('/executor/login', [AuthExecutorController::class, 'login']);
+// Route::post('/executor/logout', [AuthExecutorController::class, 'logout'])->middleware('auth:sanctum');
+// Route::get('/executor', [ExecutorController::class, 'show'])
+// ->middleware('auth:sanctum');
 
-Route::put('/category_executor/address', [CategoryExecutorController::class, 'updateAddress'])->middleware('auth:sanctum');
-Route::post('/transport/search', [CategoryExecutorController::class, 'searchTransport']);
+Route::put('/transport/address', [TransportController::class, 'updateAddress'])->middleware('auth:sanctum');
+Route::post('/transport/search', [TransportController::class, 'searchTransport']);
 
 Route::get('/executors/search', [ExecutorController::class, 'searchByCityAndCategory']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResources([
-        '/categories' => CategoryController::class,
         '/orders' => OrderController::class,
-        '/category_executor' => CategoryExecutorController::class,
+        '/transports' => TransportController::class,
     ]);
 });
+
+Route::apiResources([
+    '/categories' => CategoryController::class,
+]);

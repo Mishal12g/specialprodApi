@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TransportExecutorResource extends JsonResource
+class TransportResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,8 +22,8 @@ class TransportExecutorResource extends JsonResource
             'latitude'=> $this-> latitude,
             'longitude'=> $this-> longitude,
             'min_order'=> $this-> min_order,
-            'executor' => new ExecutorInCategoryResource($this->executor), 
             'category' => new CategoryResource($this->category),
+            'user' => new UserForTransportResource($this->user),
         ];
     }
 }

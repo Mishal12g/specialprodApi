@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category_executors', function (Blueprint $table) {
+        Schema::create('transports', function (Blueprint $table) {
             $table->id();
             $table->integer('price');
             $table->integer('min_order');
@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->decimal('latitude', 10, 8); // Широта
             $table->decimal('longitude', 11, 8); // Долгота
-            $table->foreignId('executor_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category_executors');
+        Schema::dropIfExists('transports');
     }
 };

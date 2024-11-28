@@ -15,6 +15,6 @@ class Category extends Model
 
     public function executors()
     {
-        return $this->belongsToMany(Executor::class, 'category_executors');
+        return $this->belongsToMany(Executor::class, 'transports');
     }
 }

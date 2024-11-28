@@ -15,14 +15,4 @@ class Executor extends Model
     protected $fillable = [
         'name', 'phone', 'password',
     ];
-    
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class, 'category_executors');
-    }
-
-    public function categoryLinks()
-    {
-        return $this->hasMany(CategoryExecutor::class, 'executor_id');
-    }
 }
