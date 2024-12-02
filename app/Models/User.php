@@ -13,7 +13,7 @@ class User extends Model
     use HasFactory;
     
     protected $fillable = [
-        'name', 'phone', 'password',
+        'name', 'phone', 'password', 'image',
     ];
 
     public function orders() {

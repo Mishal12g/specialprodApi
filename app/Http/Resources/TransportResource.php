@@ -19,6 +19,7 @@ class TransportResource extends JsonResource
             'created_at'=> $this-> created_at,
             'address'=> $this-> address,
             'price'=> $this-> price,
+            'image'=> $this-> image,
             'latitude'=> $this-> latitude,
             'longitude'=> $this-> longitude,
             'min_order'=> $this-> min_order,
