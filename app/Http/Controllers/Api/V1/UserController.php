@@ -37,9 +37,25 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $user = auth()->user();
+
+        // Валидируем входные данные
+        $validatedData = $request->validate([
+            'name' => 'string|max:255',
+            'image' => 'string',
+            'phone' => 'phone|max:255|unique:users',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+    
+        if (!empty($validatedData['password'])) {
+            $validatedData['password'] = bcrypt($validatedData['password']);
+        }
+
+        $user->update($validatedData);
+    
+        return new UserResource($user);
     }
 
     /**
