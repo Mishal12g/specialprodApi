@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Transport;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class TransportController extends Controller
 {
@@ -110,7 +111,33 @@ class TransportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Найти транспорт по ID
+        $transport = Transport::find($id);
+    
+        if (!$transport) {
+            return response()->json(['message' => 'Transport not found'], 404);
+        }
+    
+        // Валидация данных
+        $validatedData = $request->validate([
+            'category_id' => 'integer',
+            'price' => 'numeric',
+            'address' => 'string',
+            'latitude' => 'numeric',
+            'longitude' => 'numeric',
+            'min_order' => 'integer',
+            'name' => 'string',
+            'image' => 'nullable|string', // Если изображение может быть пустым
+        ]);
+    
+        // Обновить данные транспорта
+        $transport->update($validatedData);
+    
+        // Вернуть успешный ответ
+        return response()->json([
+            'message' => 'Transport updated successfully',
+            'data' => $transport,
+        ], 200);
     }
 
     /**
@@ -119,5 +146,9 @@ class TransportController extends Controller
     public function destroy(Transport $transport)
     {
         $transport->delete();
+
+        return response()->json([
+            'message' => 'The transport was successfully deleted',
+        ], 200);
     }
 }
