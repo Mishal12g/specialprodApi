@@ -20,7 +20,8 @@ class UserResource extends JsonResource
             'image'=> $this-> image,
             'phone'=> $this-> phone,
             'created_at'=> $this-> created_at,
-            'orders'=>  OrdersListResource::collection($this->orders),
+            'customer_orders'=> OrdersListResource::collection($this->customerOrders),
+            'executor_orders'=> OrdersListResource::collection($this->executorOrders),
             'transports' => TransportResource::collection($this->categoryLinks),
         ];
     }

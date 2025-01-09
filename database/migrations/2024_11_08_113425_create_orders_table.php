@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('date', 6)->default(DB::raw('CURRENT_TIMESTAMP(6)'));
+            $table->foreignId('customer_id')->constrained('users')->onDelete('cascade'); 
+            $table->foreignId('executor_id')->constrained('users')->onDelete('cascade'); 
+            $table->foreignId('transport_id')->constrained();
+            $table->string('location');
+            $table->timestamp('start_of_work');
+            $table->string('status');
             $table->string('description')->nullable();
-            $table->string('address');
-            $table->foreignId('category_id')->constrained();
-            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

@@ -16,8 +16,12 @@ class User extends Model
         'name', 'phone', 'password', 'image',
     ];
 
-    public function orders() {
-        return $this->hasMany(Order::class);
+    public function customerOrders() {
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+    
+    public function executorOrders() {
+        return $this->hasMany(Order::class, 'executor_id');
     }
 
 

@@ -12,7 +12,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $id)
     {
         //
     }
@@ -32,6 +32,13 @@ class UserController extends Controller
     {
         $user = $request->user(); 
         return new UserResource($user);
+    }
+
+    public function getUserById($id)
+    {
+        $user = User::findOrFail($id);
+    
+        return response()->json($user);
     }
 
     /**

@@ -48,11 +48,7 @@ class TransportController extends Controller
         $longitude = $request->input('longitude');
         $radius = (float) $request->input('radius');
         $category = $request->input('category_id');
-        $currentUserId = $request->input('user_id'); // Текущий пользователь передается как параметр
-    
-        if (!$currentUserId) {
-            return response()->json(['error' => 'Не указан идентификатор пользователя'], 400);
-        }
+        $currentUserId = $request->input('user_id'); 
     
         $transportsQuery = Transport::selectRaw(
             "*, ( 6371 * acos( cos( radians(?) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(?) ) + sin( radians(?) ) * sin( radians(latitude) ) ) ) AS distance",
@@ -61,12 +57,12 @@ class TransportController extends Controller
         ->havingRaw('distance < ?', [$radius])
         ->orderBy('distance');
     
-        // Исключаем транспорт текущего пользователя
-        $transportsQuery->whereHas('user', function ($query) use ($currentUserId) {
-            $query->where('id', '!=', $currentUserId);
-        });
-    
-        // Фильтруем по категории, если указана
+        if ($currentUserId) {
+            $transportsQuery->whereHas('user', function ($query) use ($currentUserId) {
+                $query->where('id', '!=', $currentUserId);
+            });
+        }
+        
         if ($category) {
             $transportsQuery->where('category_id', $category);
         }
@@ -103,7 +99,9 @@ class TransportController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $transport = Transport::findOrFail($id);
+    
+        return new TransportResource($transport);
     }
 
     /**

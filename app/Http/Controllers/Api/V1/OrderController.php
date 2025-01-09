@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrdersListResource;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,9 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $created_order = Order::create($request->all());
+    
+        return new OrdersListResource($created_order);
     }
 
     /**

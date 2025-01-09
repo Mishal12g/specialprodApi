@@ -16,7 +16,8 @@ Route::get('/user', [UserController::class, 'show'])
     ->middleware('auth:sanctum');
 Route::put('/user', [UserController::class, 'update'])
     ->middleware('auth:sanctum');
-
+Route::get('/users/{id}', [UserController::class, 'getUserById']);
+    
 // Route::post('/executor/register', [AuthExecutorController::class, 'register']);
 // Route::post('/executor/login', [AuthExecutorController::class, 'login']);
 // Route::post('/executor/logout', [AuthExecutorController::class, 'logout'])->middleware('auth:sanctum');
