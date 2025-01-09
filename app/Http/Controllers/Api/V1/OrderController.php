@@ -13,9 +13,24 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function showCustomerOrders(string $customerId)
+    {
+        // Получаем все заказы для конкретного заказчика
+        $orders = Order::where('customer_id', $customerId)->get();
+        return OrderResource::collection($orders);
+    }
+    
+    public function showExecutorOrders(string $executorId)
+    {
+        // Получаем все заказы для конкретного исполнителя
+        $orders = Order::where('executor_id', $executorId)->get();
+        return OrderResource::collection($orders);
+    }
+
+
     public function index()
     {
-        return OrderResource::collection(Order::with('orders')-> all());
+        // return OrderResource::collection(Order::with('orders')-> all());
     }
 
     /**
@@ -39,9 +54,28 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+     public function update(Request $request, string $id)
     {
-        //
+        // Найти заказ по ID
+        $order = Order::find($id);
+        
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+    
+        // Валидация данных
+        $validatedData = $request->validate([
+            'status' => 'required|string|in:created,canceled,confirm,inProgress,done',
+        ]);
+    
+        // Обновить данные заказа
+        $order->update($validatedData);
+    
+        // Вернуть успешный ответ
+        return response()->json([
+            'message' => 'Order updated successfully',
+            'data' =>  new OrdersListResource($order),
+        ], 200);
     }
 
     /**

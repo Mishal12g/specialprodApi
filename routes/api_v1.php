@@ -14,9 +14,14 @@ Route::post('/user/login', [AuthUserController::class, 'login']);
 Route::post('/user/logout', [AuthUserController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/user', [UserController::class, 'show'])
     ->middleware('auth:sanctum');
-Route::put('/user', [UserController::class, 'update'])
+    Route::put('/user', [UserController::class, 'update'])
     ->middleware('auth:sanctum');
-Route::get('/users/{id}', [UserController::class, 'getUserById']);
+    Route::get('/users/{id}', [UserController::class, 'getUserById']);
+    
+Route::get('/customer/orders/{id}', [OrderController::class, 'showCustomerOrders'])
+        ->middleware('auth:sanctum');
+Route::get('/executor/orders/{id}', [OrderController::class, 'showExecutorOrders'])
+        ->middleware('auth:sanctum');
     
 // Route::post('/executor/register', [AuthExecutorController::class, 'register']);
 // Route::post('/executor/login', [AuthExecutorController::class, 'login']);
